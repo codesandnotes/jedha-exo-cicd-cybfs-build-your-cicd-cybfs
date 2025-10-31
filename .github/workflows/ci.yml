@@ -13,7 +13,7 @@ jobs:
       uses: pavelzw/pytest-action@v2.1.0
       with:
         # Print a GitHub job summary
-        # job-summary: # optional, default is true
+        job-summary: false # optional, default is true
         # Verbose output
         # verbose: # optional, default is true
         # Use emojis in the output
@@ -23,7 +23,7 @@ jobs:
         # Custom command to replace the `pytest` call. Can be a custom executable or something like `poetry run pytest` or `micromamba run -n myenv pytest`.
         # custom-pytest: # optional, default is pytest
         # Title of the report
-        report-title: Supa Dupa Test Report !
+        report-title: SupaDupaTestReport
         # Add 'Click to expand' to the report
         # click-to-expand: # optional, default is true
         
