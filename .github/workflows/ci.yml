@@ -17,7 +17,7 @@ jobs:
         # Verbose output
         # verbose: # optional, default is true
         # Use emojis in the output
-        # emoji: # optional, default is true
+        emoji: false # optional, default is true
         # Custom arguments to pass to pytest
         # custom-arguments: # optional, default is 
         # Custom command to replace the `pytest` call. Can be a custom executable or something like `poetry run pytest` or `micromamba run -n myenv pytest`.
