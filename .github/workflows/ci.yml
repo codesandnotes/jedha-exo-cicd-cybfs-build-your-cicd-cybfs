@@ -9,6 +9,9 @@ jobs:
     steps:
     - name: Check out the code
       uses: actions/checkout@v5.0.0
+
+    - name: Docker image build
+      run: docker build -t calculator .
       
     - name: Run pytest
       # You may pin to the exact commit or the version.
