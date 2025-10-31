@@ -14,5 +14,5 @@ jobs:
       run: docker build -t calculator .
       
     - name: Run pytest
-      run: docker run my-python-app pytest
+      run: docker run calculator pytest
         
