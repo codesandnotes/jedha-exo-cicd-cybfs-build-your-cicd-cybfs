@@ -55,3 +55,28 @@ jobs:
       with:
         sarif_file: "trivy-results.sarif"
     
+  publish:
+    name: Publish the Docker image on GitHub Package
+    runs-on: ubuntu-latest
+    
+    steps:
+
+    - name: Check out the code
+      uses: actions/checkout@v5.0.0
+
+    - name: Docker image build
+      run: docker build -t calculator .
+
+    - name: GitHub Container Registry login
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.PACKAGE_PAT }}
+
+    - name: Push Docker image
+      run: |
+        docker push ghcr.io/${{ github.repository }}:latest
+
+
+    
