@@ -1,15 +1,19 @@
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  security-events: write
+  
 jobs:
   tests:
-    name: run pytests
+    name: pytests
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.8, 3.9, 3.10]
-    
     steps:
+    
     - name: Check out the code
       uses: actions/checkout@v5.0.0
 
@@ -18,4 +22,36 @@ jobs:
       
     - name: Run pytest
       run: docker run calculator pytest
-        
+
+  security:
+    name: security scan with Trivy
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Check out the code
+      uses: actions/checkout@v5.0.0
+
+    - name: Trivy scan (filesystem mode)
+      uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8
+      with:
+        scan-type: "fs"
+        scan-ref: "."
+        format: "table"
+        severity: "CRITICAL,HIGH"
+
+    - name: Docker image build
+      run: docker build -t calculator .
+
+    - name: Trivy scan image mode
+      uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8
+      with:
+        image-ref: "my-python-app:${{ github.sha }}"
+        format: "sarif"
+        output: "trivy-results.sarif"
+        severity: "CRITICAL,HIGH,MEDIUM"
+
+    - name: Export Trivy results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: "trivy-results.sarif"
+    
