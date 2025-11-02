@@ -75,8 +75,7 @@ jobs:
         password: ${{ secrets.PACKAGE_PAT }}
 
     - name: Push Docker image
-      run: |
-        docker push calculator:latest
+      run: docker push docker push ghcr.io/${{ github.repository }}:calculator:latest
 # ghcr.io/${{ github.repository }}:latest
 
 
